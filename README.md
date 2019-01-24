@@ -1,7 +1,7 @@
 ## 安装
 
 ```
-npm i vue-markd-loader
+npm i vue-markd-loader -D
 ```
 
 ## 使用
