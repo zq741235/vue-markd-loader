@@ -1,0 +1,39 @@
+{
+  "name": "vue-markd-loader",
+  "version": "1.0.5",
+  "description": "vue markdown loader",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir lib --minified  --no-comments",
+    "watch": "babel src --out-dir lib --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zq",
+  "license": "ISC",
+  "keywords": [
+    "markdown",
+    "md",
+    "vue",
+    "vue.js",
+    "component",
+    "components",
+    "webpack",
+    "loader",
+    "replace"
+  ],
+  "dependencies": {
+    "github-markdown-css": "^2.10.0",
+    "highlight.js": "^9.13.1",
+    "loader-utils": "^1.2.3",
+    "markdown-it": "^8.4.2",
+    "vue-template-compiler": "^2.5.22"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3"
+  }
+}
