@@ -1,7 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const querystring = require('querystring');
-
 const hljs = require('highlight.js');
 const MarkdownIt = require('markdown-it');
 const templateCompiler = require('vue-template-compiler')
@@ -42,11 +40,13 @@ const replaceResults = (template, baseDir) => {
     match = match.substr(3, match.length - 5);
     let [loadFile, query] = match.split('?')
     const source = fs.readFileSync(path.join(baseDir, loadFile), "utf-8").replace(/[\r\n]*$/, "")
+    // console.log(loaderUtils.parseQuery(`?${query}`))
 
     if (path.extname(loadFile) === ".vue") {
-      let { type } = querystring.parse(query)
+      // let { type } = querystring.parse(query)
+      let { type } = loaderUtils.parseQuery(`?${query}`)
       // let types = ['template', 'script']
-      return replaceVue(source, type ? [type] : undefined)
+      return replaceVue(source, typeof type === 'string' ? [type] : type)
     }
 
     return source
@@ -68,11 +68,18 @@ const parser = new MarkdownIt({
   }
 });
 
-module.exports = function(source) {
+module.exports = function(source, options) {
   this.cacheable && this.cacheable();
-  const options = loaderUtils.getOptions(this);
-  if (options.replaceFiles) {
+  // const options = loaderUtils.getOptions(this);
+  options = Object.assign({}, {
+      replaceFiles: false,
+      wrapper: true
+    },
+    loaderUtils.getOptions(this) || options
+  )
+  // console.log('env-----', typeof module !== 'undefined')
+  if (options.replaceFiles && typeof module !== 'undefined') {
     source = replaceResults(source, process.cwd())
   }
-  return wrapper(parser.render(source));
+  return options.wrapper ? wrapper(parser.render(source)) : parser.render(source);
 }

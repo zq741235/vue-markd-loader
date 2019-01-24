@@ -20,7 +20,14 @@ module: {
 }
 ```
 
-### 扩展配置
+### 配置
+
+#### replaceFiles
+
+ ```
+ type: Boolean
+ default:false
+ ```
 
 若要在`.md`里自动替换文件内容,`.md`里可以直接写文件路径（路径base为项目根目录）替换内容，语法如下：
 
@@ -75,3 +82,39 @@ rules: [{
 
 ```
  
+ #### wrapper
+
+ ```
+ type: Boolean
+ default:true
+ ```
+
+ 例如：
+```
+// index.md
+
+# 一级标题
+```
+
+output
+
+```html
+// wrapper:true 
+<template>
+  <section v-html="content" v-once />
+  </template>
+  <script>
+  export default {
+    created() { 
+      this.content = '<h1>一级标题</h1>'; 
+    }
+ };
+</script>
+
+```
+
+```html
+// wrapper:false 
+<h1>一级标题</h1>
+
+```
