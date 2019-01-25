@@ -1,8 +1,63 @@
+
+Vue Markd Loader 是一个 `webpack` 的 loader，将markdown(.md)文件转换为Vue Component 或 html 片段
+
 ## 安装
 
 ```
 npm i vue-markd-loader -D
 ```
+
+## 介绍
+
+``` 
+// *.md
+# 一级标题
+```
+
+### output
+
+**vue component**
+```html
+// wrapper:true 
+<template>
+  <section v-html="content" v-once />
+  </template>
+  <script>
+  export default {
+    created() { 
+      this.content = '<h1>一级标题</h1>'; 
+    }
+ };
+</script>
+
+```
+**html**
+```html
+// wrapper:false 
+<h1>一级标题</h1>
+
+```
+**除此之外，Vue Markd Loader 还提供了其他特性：**
+
+### 输出文件到代码片段
+
+index.js
+```javascript
+var x = 1
+```
+index.md
+
+```javascript
+{{:index.js}}
+```
+
+output
+
+```javascript
+// index.md
+var x = 1
+```
+
 
 ## 使用
 
@@ -19,6 +74,12 @@ module: {
   }]
 }
 ```
+```javascript
+// main.js 
+import 'highlight.js/styles/github.css'
+import 'github-markdown-css'
+```
+
 
 ### 配置
 
@@ -82,7 +143,7 @@ rules: [{
 
 ```
  
- #### wrapper
+#### wrapper
 
  ```
  type: Boolean

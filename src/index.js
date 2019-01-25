@@ -4,7 +4,7 @@ const hljs = require('highlight.js');
 const MarkdownIt = require('markdown-it');
 const templateCompiler = require('vue-template-compiler')
 const loaderUtils = require("loader-utils");
-// const { parse } = require('@vue/component-compiler-utils')
+
 const wrapper = content => `
 <template>
   <section v-html="content" v-once />
@@ -38,10 +38,8 @@ const replaceResults = (template, baseDir) => {
 
   return template.replace(regexp, function(match) {
     match = match.substr(3, match.length - 5);
-    let [loadFile, query] = match.split('?')
+    let [loadFile, query = ''] = match.split('?')
     const source = fs.readFileSync(path.join(baseDir, loadFile), "utf-8").replace(/[\r\n]*$/, "")
-    // console.log(loaderUtils.parseQuery(`?${query}`))
-
     if (path.extname(loadFile) === ".vue") {
       // let { type } = querystring.parse(query)
       let { type } = loaderUtils.parseQuery(`?${query}`)
@@ -77,7 +75,6 @@ module.exports = function(source, options) {
     },
     loaderUtils.getOptions(this) || options
   )
-  // console.log('env-----', typeof module !== 'undefined')
   if (options.replaceFiles && typeof module !== 'undefined') {
     source = replaceResults(source, process.cwd())
   }
